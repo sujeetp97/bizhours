@@ -1,0 +1,15 @@
+Package: bizhours
+Title: Calculate the business hours between two datetime vectors
+Version: 0.0.0.9000
+Authors@R: person("Sujeet", "Pillai", email = "sujit97@gmail.com", role = c("aut", "cre"))
+URL: 
+Description: bizhours provides a single function bizhours(...) that calculates the difference between two vectors of POSIXct date-time values that represents the date time from when to calculate the difference and the corresponding date-time values till when to calculate. bizhours uses package bizdays for it's calculation of business days (https://cran.r-project.org/web/packages/bizdays/bizdays.pdf) and for the calendars used
+Depends: R (>= 3.4.1), bizdays
+License: GNU General Public License
+Encoding: UTF-8
+LazyData: true
+Imports: 
+RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
