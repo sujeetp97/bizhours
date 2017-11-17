@@ -5,7 +5,7 @@
 \title{bizhours}
 \usage{
 bizhours(from_dates, to_dates, start_time, end_time, timezone = "",
-  calendar = "", through_night_shift = FALSE)
+  calendar = "")
 }
 \arguments{
 \item{from_dates}{A vector of POSIXct objects that are date-times from when to start
@@ -25,10 +25,6 @@ in 24 hour format- of the day when the business hours end.}
 \item{calendar}{A string that represents the name of the \code{bizdays} calendar to use.
 Default: "" - uses \code{Brazil/ANBIMA} calendar of package \code{bizdays} with
 workweek from Monday through Friday.}
-
-\item{through_night_shift}{A boolean, default : False. Set true if work shift spans
-through midnight. For example: For a 9am-5pm job or for a 2am to 12pm job set this as
-\code{False} and for a 9pm-5am job set this as \code{True}.}
 }
 \value{
 A numeric vector that shows the difference in business hours between
@@ -40,7 +36,8 @@ Calculate the business hours between two datetime vectors
 \details{
 Calculates the difference between two vectors of date times in terms of
 business hours, where business hours is determined using the start_time and end_time
-parameters.
+parameters. The function can be used seamlessly for night-shift calculations, eg. for 
+a 9pm to 6am shift, \code{start_time} is 21:00 and \code{end_time} is 06:00
 }
 \author{
 Sujeet G Pillai

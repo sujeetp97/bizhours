@@ -1,0 +1,75 @@
+---
+title: "Testing package bizhours"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(bizhours)
+```
+
+## Purpose of the document
+In this document we will try to check the output of package `bizhours` for correctness. We will check the output from function `bizhours`
+for different values for the following parameters 
+
+* `start_time` : The start time of the work shift
+* `end_time` : The end time of the work shift
+* `through_night_shift` : A boolean flag representing whether the work shift spans across midnight
+
+## Testing the function
+
+Let's first create the variables - `from` and `to` to be used as the parameters `from_dates` and `to_dates` of function `bizhours`  
+
+```{r variables}
+from <- c(as.POSIXct(x = "10/19/2017 15:00", format = "%m/%d/%Y %H:%M"), 
+          as.POSIXct(x = "10/25/2017 15:00", format = "%m/%d/%Y %H:%M")
+          )
+to <- c(as.POSIXct(x = "10/23/2017 17:00", format = "%m/%d/%Y %H:%M"), 
+        as.POSIXct(x = "10/25/2017 17:00", format = "%m/%d/%Y %H:%M")
+        )
+from
+to
+```
+
+Both date times have the same start time and end time for their shifts - 15:00 and 17:00 hours respectively. 
+We can now test three different scenarios of calculating business hours by altering specific 
+parameters and check the returned business hours for correctness.
+
+As we are not altering any of the additional parameters of the function, the default calendar will be used. This 
+considers saturday and sunday as holidays and also a list of holidays specified by `holidaysANBIMA` within the `bizdays` package.
+
+#### Scenario 1
+A work shift of 9:00 AM to 6:00 PM. 
+##### Expected Results
+*Below two images show dates plotted on a number line and days split into 24 hours. Blue shows work timings, green shows the from and to date for which we are calculating and the numbers in yellow show the overlaps which also translates to business hours.*
+10/19/2017 15:00 - 10/23/2017 17:00
+(scen1_param1.png)
+*Saturday and Sunday are considered holidays.*
+
+10/25/2017 15:00 - 10/25/2017 17:00
+(scen1_param2.png)
+
+
+```{r scenario_1}
+bizhours(from_dates = from, to_dates = to, start_time = "09:00", end_time = "18:00")
+```
+
+
+In this scenario `bizhours` has given the expected result of 20 and 2 hours respectively.
+
+#### Scenario 2
+A work night-shift of 9:00 PM to 6:00 AM. 
+##### Expected Results
+*Below two images show dates plotted on a number line and days split into 24 hours. Blue shows work timings, green shows the from and to date for which we are calculating and the numbers in yellow show the overlaps which also translates to business hours.*
+10/19/2017 15:00 - 10/23/2017 17:00
+(scen2_param1.png)
+*Saturday and Sunday are considered holidays.*
+
+10/25/2017 15:00 - 10/25/2017 17:00
+(scen2_param2.png)
+
+
+```{r scenario_2}
+bizhours(from_dates = from, to_dates = to, start_time = "21:00", end_time = "6:00", through_night_shift = TRUE)
+```
+
